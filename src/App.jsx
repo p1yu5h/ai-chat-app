@@ -14,12 +14,12 @@ function App() {
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <ChakraProvider value={defaultSystem}>
-          <Router>
+          <Router basename="/ai-chat-app">
             <Sidebar />
             <Flex direction="column" height="100vh" width="100%" p={2} bg="gray.50">
               <Header />
               <Flex flexGrow={1} overflow="hidden">
-                <Routes>
+                <Routes >
                   <Route path="/" element={<HomePage />} />
                   <Route path="/conversation" element={<Navigate to="/" />} />
                   <Route path="/conversation/:conversationId" element={<ConversationPage />} />

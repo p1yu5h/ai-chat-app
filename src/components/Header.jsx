@@ -9,7 +9,7 @@ function Header() {
   const location = useLocation();
 
   const [showSharePopup, setShowSharePopup] = useState();
-  const isHomePage = location.pathname === "/";
+  const isHomePage = location.pathname === "/"; 
   const isPublicPage = location.pathname.includes("public");
 
   return (

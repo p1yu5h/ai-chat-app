@@ -47,11 +47,16 @@ Start the local development server:
 npm run dev
 ```
 
-### Build
+### Build and Deploy
 
 To build the app:
 ```bash
 npm run build
+```
+
+To deploy to GitHub Pages:
+```bash
+npm run deploy
 ```
 
 ### Linting

@@ -18,7 +18,8 @@ const SharePopup = ({ onDismiss }) => {
   const pathParts = location.pathname.split("/");
   const conversationId = pathParts[pathParts.length - 1];
 
-  const publicLink = `${window.location.origin}/conversation/public/${conversationId}`;
+  // Pls note: this is for gh pages deployment, for running locally remove "/ai-chat-app"
+  const publicLink = `${window.location.origin}/ai-chat-app/conversation/public/${conversationId}`;
 
   const copyLink = () => {
     navigator.clipboard
