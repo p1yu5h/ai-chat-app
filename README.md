@@ -12,6 +12,13 @@ Key features of the feedback system include:
 - Using React.memo for MessageInput component to prevent unnecessary re-renders.
 - Use useCallback hook to memoize callback functions.
 - Use redux store with redux-persist to store conversations in localStorage.
+ 
+## Future improvements
+Given more time, I'd like to add:
+- Streaming animation for the chat bot's response
+- Dark mode
+- Markdown editor
+- Keyboard shortcuts to start new conversations, end current conversation, open/close sidebar, etc.
 
 ## Libraries Used
 - React
