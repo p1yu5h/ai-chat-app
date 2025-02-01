@@ -16,7 +16,6 @@ Key features of the feedback system include:
 ## Future improvements
 Given more time, I'd like to add:
 - Streaming animation for the chat bot's response
-- Dark mode
 - Markdown editor
 - Keyboard shortcuts to start new conversations, end current conversation, open/close sidebar, etc.
 
