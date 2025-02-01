@@ -23,6 +23,7 @@ function App() {
                   <Route path="/" element={<HomePage />} />
                   <Route path="/conversation" element={<Navigate to="/" />} />
                   <Route path="/conversation/:conversationId" element={<ConversationPage />} />
+                  <Route path="/conversation/public/:conversationId" element={<ConversationPage viewOnly />} />
                 </Routes>
               </Flex>
             </Flex>

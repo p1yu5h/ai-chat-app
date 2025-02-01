@@ -11,7 +11,8 @@ import MessageInput from "@/components/MessageInput";
 import { addMessage, updateConversationStatus, updateMessageFeedback } from "@/redux/slices/conversationsSlice";
 import { saveConversation } from "@/services/conversation.service";
 
-const ConversationPage = () => {
+// eslint-disable-next-line react/prop-types
+const ConversationPage = ({ viewOnly }) => {
   const dispatch = useDispatch();
   const { conversationId } = useParams();
 
@@ -151,7 +152,13 @@ const ConversationPage = () => {
       </VStack>
 
       {/* Fixed MessageInput at the bottom */}
-      {conversation?.status === "active" ? (
+      {viewOnly ? (
+        <Box position="fixed" bottom={0} left={0} right={0} p={4} bg="white" boxShadow="md">
+          <Text fontWeight="bold" mb={2}>
+            You cannot reply to this conversation.
+          </Text>
+        </Box>
+      ) : conversation?.status === "active" ? (
         <Box position="fixed" bottom={0} left={0} right={0} p={3} bg="white" boxShadow="md">
           <MessageInput
             placeholder="Type your message to the AI..."
