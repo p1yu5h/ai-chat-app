@@ -1,9 +1,9 @@
-import { Button, Flex } from "@chakra-ui/react";
+import { Button, Flex, IconButton } from "@chakra-ui/react";
+import { Share } from "lucide-react";
 import React, { Suspense, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+
 const SharePopup = React.lazy(() => import("./SharePopup"));
-import { IconButton } from "@chakra-ui/react";
-import { Share } from "lucide-react";
 
 function Header() {
   const location = useLocation();

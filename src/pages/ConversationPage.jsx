@@ -1,15 +1,16 @@
 import { Box, Flex, Spinner, Text, VStack } from "@chakra-ui/react";
 import { ThumbsDown, ThumbsUp } from "lucide-react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import React, { Suspense, useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 
-import ConversationFeedback from "@/components/ConversationFeedback";
-import ConversationFeedbackSummary from "@/components/ConversationFeedbcakSummary";
 import MessageInput from "@/components/MessageInput";
 import { addMessage, updateConversationStatus, updateMessageFeedback } from "@/redux/slices/conversationsSlice";
 import { saveConversation } from "@/services/conversation.service";
+
+const ConversationFeedback = React.lazy(() => import("@/components/ConversationFeedback"));
+const ConversationFeedbackSummary = React.lazy(() => import("@/components/ConversationFeedbcakSummary"));
 
 // eslint-disable-next-line react/prop-types
 const ConversationPage = ({ viewOnly }) => {
@@ -47,7 +48,7 @@ const ConversationPage = ({ viewOnly }) => {
         setTimeout(() => {
           const responseMessage = {
             id: uuidv4(),
-            message: "This is a response",
+            message: "This is a response from the chat bot",
             feedback: null,
             conversationId,
             from: "ai",
@@ -89,7 +90,11 @@ const ConversationPage = ({ viewOnly }) => {
       bg="gray.50"
       position="relative"
     >
-      {showFeedbackPopup && <ConversationFeedback onDismiss={() => setShowFeedbackPopup(false)} />}
+      {showFeedbackPopup && (
+        <Suspense loading={<div>Loading...</div>}>
+          <ConversationFeedback onDismiss={() => setShowFeedbackPopup(false)} />
+        </Suspense>
+      )}
 
       <VStack
         spacing={5}
@@ -103,45 +108,51 @@ const ConversationPage = ({ viewOnly }) => {
         overflowY="auto"
         paddingBottom="80px"
       >
-        {messages?.map((message) => (
-          <Flex
-            key={message.id}
-            justifyContent={message.from === "ai" ? "flex-start" : "flex-end"}
-            onMouseEnter={() => message.from === "ai" && setHoveredMessageId(message.id)}
-            onMouseLeave={() => setHoveredMessageId(null)}
-            position="relative"
-          >
-            <Box
-              p={3}
-              bg={message.from === "ai" ? "gray.200" : "blue.500"}
-              color={message.from === "ai" ? "black" : "white"}
-              borderRadius="lg"
-              maxWidth="80%"
-              mt={2}
-              mb={message.from === "ai" ? 8 : 4}
-              boxShadow="md"
+        {messages?.length > 0 ? (
+          messages?.map((message) => (
+            <Flex
+              key={message.id}
+              justifyContent={message.from === "ai" ? "flex-start" : "flex-end"}
+              onMouseEnter={() => message.from === "ai" && setHoveredMessageId(message.id)}
+              onMouseLeave={() => setHoveredMessageId(null)}
+              position="relative"
             >
-              <Text>{message.message}</Text>
-            </Box>
+              <Box
+                p={3}
+                bg={message.from === "ai" ? "gray.200" : "blue.500"}
+                color={message.from === "ai" ? "black" : "white"}
+                borderRadius="lg"
+                maxWidth="80%"
+                mt={2}
+                mb={message.from === "ai" ? 8 : 4}
+                boxShadow="md"
+              >
+                <Text>{message.message}</Text>
+              </Box>
 
-            {message.from === "ai" && hoveredMessageId === message.id && (
-              <Flex position="absolute" top={16} left={2} gap={2}>
-                <ThumbsDown
-                  cursor="pointer"
-                  color={message.feedback === "negative" ? "red" : "black"}
-                  fill={message.feedback === "negative" ? "red" : "none"}
-                  onClick={() => handleMessageFeedback(message.id, "negative")}
-                />
-                <ThumbsUp
-                  cursor="pointer"
-                  color={message.feedback === "positive" ? "green" : "black"}
-                  fill={message.feedback === "positive" ? "green" : "none"}
-                  onClick={() => handleMessageFeedback(message.id, "positive")}
-                />
-              </Flex>
-            )}
-          </Flex>
-        ))}
+              {message.from === "ai" && hoveredMessageId === message.id && (
+                <Flex position="absolute" top={16} left={2} gap={2}>
+                  <ThumbsDown
+                    cursor="pointer"
+                    color={message.feedback === "negative" ? "red" : "black"}
+                    fill={message.feedback === "negative" ? "red" : "none"}
+                    onClick={() => handleMessageFeedback(message.id, "negative")}
+                  />
+                  <ThumbsUp
+                    cursor="pointer"
+                    color={message.feedback === "positive" ? "green" : "black"}
+                    fill={message.feedback === "positive" ? "green" : "none"}
+                    onClick={() => handleMessageFeedback(message.id, "positive")}
+                  />
+                </Flex>
+              )}
+            </Flex>
+          ))
+        ) : (
+          <Text fontStyle="italic" color="gray.500" textAlign="center">
+            Send a message to get started
+          </Text>
+        )}
         <div ref={messagesEndRef} /> {/* This will be the scroll target */}
         {isLoading && (
           <Flex justifyContent="flex-start" gap={4} alignItems="center" width="100%" mt={4}>
@@ -168,10 +179,12 @@ const ConversationPage = ({ viewOnly }) => {
           />
         </Box>
       ) : (
-        <ConversationFeedbackSummary
-          rating={conversation?.feedback?.rating}
-          feedback={conversation?.feedback?.feedback}
-        />
+        <Suspense loading={<div>Loading...</div>}>
+          <ConversationFeedbackSummary
+            rating={conversation?.feedback?.rating}
+            feedback={conversation?.feedback?.feedback}
+          />
+        </Suspense>
       )}
     </Flex>
   );
