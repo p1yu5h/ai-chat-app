@@ -7,6 +7,12 @@ Key features of the feedback system include:
 - **5-Star Rating**: At the end of the conversation, users can rate their overall experience with the AI using a 5-star rating system.
 - **Subjective Feedback**: Users can also provide additional subjective feedback in the form of written comments, allowing for more personalized insights on their experience.
 
+## Key enhancements
+- Lazy Loading components like SharePopup, ConversationFeedback, ConversationFeedbackSummary.
+- Using React.memo for MessageInput component to prevent unnecessary re-renders.
+- Use useCallback hook to memoize callback functions.
+- Use redux store with redux-persist to store conversations in localStorage.
+
 ## Libraries Used
 - React
 - Vite
