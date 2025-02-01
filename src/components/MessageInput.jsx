@@ -21,20 +21,24 @@ const MessageInput = ({ disabled, placeholder, handleSendMessage, handleEndConve
         value={message}
         onChange={(e) => setMessage(e.target.value)}
         size="md"
+        _dark={{ bg: "gray.700" }}
         onKeyDown={handleKeyDown}
       />
-      <Button
-        colorScheme="teal"
-        onClick={() => {
-          handleSendMessage(message);
-          setMessage("");
-        }}
-      >
-        Send Message
-      </Button>
-      <Button bgColor="red" onClick={handleEndConversation}>
-        End Conversation
-      </Button>
+      <Flex gap={4} align="center" direction={{ base: "column", md: "row" }}>
+        <Button
+          colorScheme="teal"
+          onClick={() => {
+            handleSendMessage(message);
+            setMessage("");
+          }}
+          width={{ base: "100%", md: "auto" }}
+        >
+          Send Message
+        </Button>
+        <Button bgColor="red" onClick={handleEndConversation} width={{ base: "100%", md: "auto" }}>
+          End Conversation
+        </Button>
+      </Flex>
     </Flex>
   );
 };

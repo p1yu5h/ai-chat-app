@@ -15,8 +15,10 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
+import { useColorMode } from "./ui/color-mode";
 
 const Sidebar = () => {
+  const { colorMode } = useColorMode();
   const [isOpen, setIsOpen] = useState(false);
   const conversations = useSelector((state) => state.conversations.conversations);
 
@@ -36,7 +38,7 @@ const Sidebar = () => {
     <DrawerRoot placement="start" open={isOpen} onClose={closeDrawer}>
       <DrawerBackdrop />
       <DrawerTrigger asChild>
-        <MenuIcon color="black" style={drawerIconStyles} onClick={toggleDrawer} />
+        <MenuIcon color={colorMode === "dark" ? "white" : "black"} style={drawerIconStyles} onClick={toggleDrawer} />
       </DrawerTrigger>
       <DrawerContent>
         <DrawerHeader>
@@ -46,7 +48,12 @@ const Sidebar = () => {
           {conversations.length > 0 ? (
             conversations.map((conversation) => (
               <Link key={conversation.id} to={`/conversation/${conversation.id}`} onClick={closeDrawer}>
-                <Box rounded={4} p={2} bgColor={conversationId === conversation.id ? "gray.100" : "white"}>
+                <Box
+                  rounded={4}
+                  p={2}
+                  bgColor={conversationId === conversation.id ? "gray.100" : "white"}
+                  _dark={{ bgColor: conversationId === conversation.id ? "gray.800" : "gray.950" }}
+                >
                   {conversation?.messages?.[0]?.message?.split(" ").slice(0, 4).join(" ") +
                     (conversation?.messages?.[0]?.message.split(" ").length > 4 ? "..." : "") || conversation.id}
                 </Box>

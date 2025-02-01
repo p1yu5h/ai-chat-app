@@ -2,6 +2,7 @@ import { Button, Flex, IconButton } from "@chakra-ui/react";
 import { Share } from "lucide-react";
 import React, { Suspense, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { ColorModeButton } from "./ui/color-mode";
 
 const SharePopup = React.lazy(() => import("./SharePopup"));
 
@@ -14,6 +15,8 @@ function Header() {
 
   return (
     <Flex justifyContent="flex-end" alignItems="center" gap={4}>
+      <ColorModeButton />
+
       {showSharePopup && (
         <Suspense loading={<div>Loading...</div>}>
           <SharePopup onDismiss={() => setShowSharePopup(false)} />

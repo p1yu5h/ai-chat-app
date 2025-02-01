@@ -8,6 +8,7 @@ import { v4 as uuidv4 } from "uuid";
 import MessageInput from "@/components/MessageInput";
 import { addMessage, updateConversationStatus, updateMessageFeedback } from "@/redux/slices/conversationsSlice";
 import { saveConversation } from "@/services/conversation.service";
+import { useColorMode } from "@/components/ui/color-mode";
 
 const ConversationFeedback = React.lazy(() => import("@/components/ConversationFeedback"));
 const ConversationFeedbackSummary = React.lazy(() => import("@/components/ConversationFeedbcakSummary"));
@@ -15,6 +16,7 @@ const ConversationFeedbackSummary = React.lazy(() => import("@/components/Conver
 // eslint-disable-next-line react/prop-types
 const ConversationPage = ({ viewOnly }) => {
   const dispatch = useDispatch();
+  const { colorMode } = useColorMode();
   const { conversationId } = useParams();
 
   const conversations = useSelector((state) => state.conversations.conversations);
@@ -88,6 +90,7 @@ const ConversationPage = ({ viewOnly }) => {
       alignItems="center"
       justifyContent="flex-start"
       bg="gray.50"
+      _dark={{ bg: "gray.800" }}
       position="relative"
     >
       {showFeedbackPopup && (
@@ -134,13 +137,13 @@ const ConversationPage = ({ viewOnly }) => {
                 <Flex position="absolute" top={16} left={2} gap={2}>
                   <ThumbsDown
                     cursor="pointer"
-                    color={message.feedback === "negative" ? "red" : "black"}
+                    color={message.feedback === "negative" ? "red" : colorMode === "dark" ? "white" : "black"}
                     fill={message.feedback === "negative" ? "red" : "none"}
                     onClick={() => handleMessageFeedback(message.id, "negative")}
                   />
                   <ThumbsUp
                     cursor="pointer"
-                    color={message.feedback === "positive" ? "green" : "black"}
+                    color={message.feedback === "positive" ? "green" : colorMode === "dark" ? "white" : "black"}
                     fill={message.feedback === "positive" ? "green" : "none"}
                     onClick={() => handleMessageFeedback(message.id, "positive")}
                   />
@@ -170,7 +173,7 @@ const ConversationPage = ({ viewOnly }) => {
           </Text>
         </Box>
       ) : conversation?.status === "active" ? (
-        <Box position="fixed" bottom={0} left={0} right={0} p={3} bg="white" boxShadow="md">
+        <Box position="fixed" bottom={0} left={0} right={0} p={3} bg="white" boxShadow="md" _dark={{ bg: "gray.800" }}>
           <MessageInput
             placeholder="Type your message to the AI..."
             disabled={isLoading}

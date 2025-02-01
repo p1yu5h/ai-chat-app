@@ -62,6 +62,7 @@ const ConversationFeedback = ({ onDismiss }) => {
             value={feedback}
             onChange={(e) => setFeedback(e.target.value)}
             resize="vertical"
+            _dark={{ bg: "gray.700" }}
           />
         </DialogBody>
         <DialogFooter>

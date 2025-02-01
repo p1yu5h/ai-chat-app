@@ -17,7 +17,7 @@ const HomePage = () => {
   }, [dispatch, navigate]);
 
   return (
-    <Flex direction="column" width="100vw" height="100vh" alignItems="center" justifyContent="center" bg="gray.50">
+    <Flex direction="column" width="100vw" height="100vh" alignItems="center" justifyContent="center" bg="gray.50" _dark={{ bg: "gray.800"}}>
       <VStack spacing={5}>
         <Box textAlign="center">
           <Text fontSize="3xl" fontWeight="bold">

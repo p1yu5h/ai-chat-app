@@ -4,7 +4,7 @@ import { Star } from "lucide-react";
 // eslint-disable-next-line react/prop-types
 const ConversationFeedbackSummary = ({ rating, feedback }) => {
   return (
-    <Box position="fixed" bottom={0} left={0} right={0} p={4} bg="white" boxShadow="md">
+    <Box position="fixed" bottom={0} left={0} right={0} p={4} bg="white" _dark={{ bg: "gray.900" }} boxShadow="md">
       <Text fontWeight="bold" mb={2}>
         This conversation has ended.
       </Text>
@@ -23,7 +23,7 @@ const ConversationFeedbackSummary = ({ rating, feedback }) => {
 
           {/* Display text feedback */}
           {feedback ? (
-            <Text color="gray.600" fontStyle="italic">
+            <Text color="gray.600" _dark={{ color: "gray.400" }} fontStyle="italic">
               &quot;{feedback}&quot;
             </Text>
           ) : (
